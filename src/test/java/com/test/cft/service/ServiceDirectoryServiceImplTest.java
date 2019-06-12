@@ -65,7 +65,7 @@ public class ServiceDirectoryServiceImplTest {
 
     @Test
     public void deleteisServiceDirectoryTest() {
-        Mockito.doReturn( Optional.of (ServiceDirectory.builder().id( 12l ).ServiceDirectoryName( "Posts" ).build())  )
+        Mockito.doReturn( Optional.of (ServiceDirectory.builder().id( 12l ).serviceDirectoryName( "Posts" ).build())  )
                 .when( repository )
                 .findById( 12l );
 
