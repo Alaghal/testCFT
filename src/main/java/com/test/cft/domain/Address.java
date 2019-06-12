@@ -26,8 +26,8 @@ public class Address {
     @JoinColumn(name = "CITY_ID")
     private City city;
 
-    @OneToOne(mappedBy = "ADDRESS", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-     private  Address address;
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+     private  ServiceStation serviceStation;
 
     @Override
     public String toString(){

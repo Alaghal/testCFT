@@ -24,8 +24,8 @@ public class Country {
     @Column(name = "COUNTRY_NAME")
     private String countryName;
 
-    @OneToMany(mappedBy = "Country", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    List<City> cityList = new ArrayList<>();
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    List<City> cityList;
 
     @Override
     public String toString() {

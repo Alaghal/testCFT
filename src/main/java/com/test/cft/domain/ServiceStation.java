@@ -29,7 +29,7 @@ public class ServiceStation {
     @JoinTable(name = "SERVICE_DIRECTORY_SERVICE_STATION",
             joinColumns = @JoinColumn(name = "SERVICE_STATION_ID"),
             inverseJoinColumns = @JoinColumn(name = "SERVICE_DIRECTORY_ID"))
-    private List<ServiceDirectory> serviceDirectories = new ArrayList<>();
+    private List<ServiceDirectory> serviceDirectories;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ADDRESS_ID")

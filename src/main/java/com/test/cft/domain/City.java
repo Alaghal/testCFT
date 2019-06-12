@@ -24,8 +24,8 @@ public class City {
     @Column(name = "CITY_NAME")
     private String cityName;
 
-    @OneToMany(mappedBy = "City", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Address> addresses = new ArrayList<>();
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Address> addresses ;
 
     @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "COUNTRY_ID")
