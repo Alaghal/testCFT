@@ -2,6 +2,7 @@ package com.test.cft.controller;
 
 import com.test.cft.domain.ServiceDirectory;
 import com.test.cft.domain.ServiceStation;
+import com.test.cft.exeption.ServiceStationNotFoundExeption;
 import com.test.cft.services.ServiceStationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class ServiceStationController {
     }
 
     @GetMapping("/serviceStations/{id}")
-    public ServiceStation getServiceStationById(@PathVariable(value = "id") Long serviceDirectoryId){
+    public ServiceStation getServiceStationById(@PathVariable(value = "id") Long serviceDirectoryId) throws ServiceStationNotFoundExeption {
         return service.getServiceStationById(serviceDirectoryId);
     }
 
@@ -42,7 +43,7 @@ public class ServiceStationController {
 
     @PutMapping("/serviceStation/{id}")
     public ServiceStation updateServiceStation(@PathVariable(value = "id") Long serviceStationId,
-                                               @Valid @RequestBody ServiceStation serviceStationDetails){
+                                               @Valid @RequestBody ServiceStation serviceStationDetails) throws  ServiceStationNotFoundExeption{
         ServiceStation serviceStation = service.getServiceStationById( serviceStationId );
 
         serviceStation.setServiceStationName( serviceStationDetails.getServiceStationName());
@@ -55,7 +56,7 @@ public class ServiceStationController {
     }
 
     @DeleteMapping("/serviceStation/{id}")
-    public ResponseEntity deleteServiceStation(@PathVariable(value = "id") Long serviceStationId){
+    public ResponseEntity deleteServiceStation(@PathVariable(value = "id") Long serviceStationId) throws  ServiceStationNotFoundExeption{
         if (service.deleteServiceStation( serviceStationId ))
             return ResponseEntity.ok(  ).build();
         return ResponseEntity.badRequest().build();

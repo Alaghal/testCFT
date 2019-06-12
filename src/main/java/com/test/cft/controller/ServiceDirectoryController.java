@@ -1,6 +1,7 @@
 package com.test.cft.controller;
 
 import com.test.cft.domain.ServiceDirectory;
+import com.test.cft.exeption.ServiceDirectoryNotFoundExeption;
 import com.test.cft.services.ServiceDirectoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class ServiceDirectoryController {
     }
 
     @GetMapping("/serviceDirectories/{id}")
-    public ServiceDirectory getServiceDirectoryById(@PathVariable(value = "id") Long serviceDirectoryId){
+    public ServiceDirectory getServiceDirectoryById(@PathVariable(value = "id") Long serviceDirectoryId) throws ServiceDirectoryNotFoundExeption {
         return service.getServiceDirectoryById( serviceDirectoryId );
     }
 
@@ -41,7 +42,7 @@ public class ServiceDirectoryController {
 
     @PutMapping("/serviceDirectories/{id}")
     public ServiceDirectory updateServiceDirectory(@PathVariable(value = "id") Long serviceDirectoryId,
-                                 @Valid @RequestBody ServiceDirectory serviceDirectoryDetails){
+                                 @Valid @RequestBody ServiceDirectory serviceDirectoryDetails) throws  ServiceDirectoryNotFoundExeption{
         ServiceDirectory serviceDirectory = service.getServiceDirectoryById( serviceDirectoryId );
 
         serviceDirectory.setServiceDirectoryName( serviceDirectoryDetails.getServiceDirectoryName());
@@ -53,7 +54,7 @@ public class ServiceDirectoryController {
     }
 
     @DeleteMapping("/serviceDirectories/{id}")
-    public ResponseEntity deleteCountry(@PathVariable(value = "id") Long serviceDirectoryId){
+    public ResponseEntity deleteCountry(@PathVariable(value = "id") Long serviceDirectoryId) throws ServiceDirectoryNotFoundExeption{
         if (service.deleteServiceDirectory( serviceDirectoryId ))
             return ResponseEntity.ok(  ).build();
         return ResponseEntity.badRequest().build();

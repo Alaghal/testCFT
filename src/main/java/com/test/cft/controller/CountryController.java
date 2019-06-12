@@ -1,6 +1,7 @@
 package com.test.cft.controller;
 
 import com.test.cft.domain.Country;
+import com.test.cft.exeption.CountryNotFoundExeption;
 import com.test.cft.services.CountryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class CountryController {
     }
 
     @GetMapping("/countries/{id}")
-    public  Country getCountryById(@PathVariable(value = "id") Long countryId){
+    public  Country getCountryById(@PathVariable(value = "id") Long countryId) throws CountryNotFoundExeption {
         return service.getCountryById( countryId );
     }
 
@@ -41,7 +42,7 @@ public class CountryController {
 
     @PutMapping("/countries/{id}")
     public Country updateCountry(@PathVariable(value = "id") Long countryId,
-                                 @Valid @RequestBody Country countryDetails){
+                                 @Valid @RequestBody Country countryDetails) throws  CountryNotFoundExeption{
         Country country = service.getCountryById( countryId );
 
         country.setCountryName( countryDetails.getCountryName());
@@ -53,7 +54,7 @@ public class CountryController {
     }
 
     @DeleteMapping("/countries/{id}")
-     public ResponseEntity deleteCountry(@PathVariable(value = "id") Long countryId){
+     public ResponseEntity deleteCountry(@PathVariable(value = "id") Long countryId) throws CountryNotFoundExeption{
         if (service.deleteCountry( countryId ))
             return ResponseEntity.ok(  ).build();
         return ResponseEntity.badRequest().build();
