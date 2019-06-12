@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ServiceStationRepository extends JpaRepository<ServiceStation, Long> {
-    @Query("select b from ServiceStation b where b.ServiceStationName = :name")
+    @Query("select b from ServiceStation b where b.serviceStationName = :name")
     ServiceStation findByName(@Param("name") String name);
 }
