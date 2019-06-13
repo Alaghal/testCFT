@@ -1,5 +1,6 @@
 package com.test.cft.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,9 +25,11 @@ public class City {
     @Column(name = "CITY_NAME")
     private String cityName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Address> addresses ;
 
+    @JsonIgnore
     @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "COUNTRY_ID")
     private Country country;
