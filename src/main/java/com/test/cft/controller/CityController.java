@@ -2,6 +2,7 @@ package com.test.cft.controller;
 
 
 import com.test.cft.domain.City;
+import com.test.cft.exeption.CityNotFoundExeption;
 import com.test.cft.services.CityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class CityController {
     }
 
     @GetMapping("/cities/{id}")
-    public City getCityById(@PathVariable(value = "id") Long cityId) {
+    public City getCityById(@PathVariable(value = "id") Long cityId) throws CityNotFoundExeption {
         return service.getCityById(cityId);
     }
 
@@ -41,7 +42,7 @@ public class CityController {
 
     @PutMapping("/cities/{id}")
     public City updateCity(@PathVariable(value = "id") Long cityId,
-                           @Valid @RequestBody City cityDetails){
+                           @Valid @RequestBody City cityDetails) throws  CityNotFoundExeption{
       City city = service.getCityById( cityId );
 
       city.setCityName( cityDetails.getCityName());
@@ -54,7 +55,7 @@ public class CityController {
      }
 
      @DeleteMapping("/cities/{id}")
-     public ResponseEntity deleteCity(@PathVariable(value = "id") Long cityId){
+     public ResponseEntity deleteCity(@PathVariable(value = "id") Long cityId) throws  CityNotFoundExeption{
              if (service.deleteCity( cityId ))
                  return ResponseEntity.ok(  ).build();
              return ResponseEntity.badRequest().build();

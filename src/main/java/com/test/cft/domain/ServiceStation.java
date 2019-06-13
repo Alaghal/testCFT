@@ -25,7 +25,7 @@ public class ServiceStation {
     @Column(name = "SERVICE_STATION_NAME")
     private String serviceStationName;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "SERVICE_DIRECTORY_SERVICE_STATION",
             joinColumns = @JoinColumn(name = "SERVICE_STATION_ID"),
             inverseJoinColumns = @JoinColumn(name = "SERVICE_DIRECTORY_ID"))

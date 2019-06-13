@@ -1,6 +1,7 @@
 package com.test.cft.controller;
 
 import com.test.cft.domain.Address;
+import com.test.cft.exeption.AddressNotFoundExeption;
 import com.test.cft.services.AddressService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class AddressController {
     }
 
     @GetMapping("/address/{id}")
-    public Address getAddressById(@PathVariable(value = "id") Long addressId){
+    public Address getAddressById(@PathVariable(value = "id") Long addressId) throws AddressNotFoundExeption {
         return service.getAddressById( addressId );
     }
 
@@ -40,7 +41,7 @@ public class AddressController {
 
     @PutMapping("/address/{id}")
     public  Address updateAddress(@PathVariable(value = "id") Long addressId,
-                                  @Valid @RequestBody Address addressDetails){
+                                  @Valid @RequestBody Address addressDetails) throws  AddressNotFoundExeption{
         Address address = service.getAddressById( addressId );
 
         address.setAddressName( address.getAddressName());
@@ -54,7 +55,7 @@ public class AddressController {
     }
 
     @DeleteMapping ("/address/{id}")
-    public ResponseEntity deleteAddress(@PathVariable(value = "id") Long addressId){
+    public ResponseEntity deleteAddress(@PathVariable(value = "id") Long addressId) throws  AddressNotFoundExeption{
         if (service.deleteAddress( addressId ))
             return ResponseEntity.ok(  ).build();
         return ResponseEntity.badRequest().build();

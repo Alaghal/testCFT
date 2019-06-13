@@ -65,7 +65,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address getAddressById(long id) {
-        return Optional.ofNullable( repository.findById( id ).get()).orElse( new Address(  ) );
+        return  repository.findById( id ).get();
     }
 
     @Override
