@@ -1,20 +1,20 @@
 package com.test.cft.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"serviceDirectories","address"})
 @Table(name = "SERVICE_STATION")
 public class ServiceStation {
     @Id
@@ -25,14 +25,13 @@ public class ServiceStation {
     @Column(name = "SERVICE_STATION_NAME")
     private String serviceStationName;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "SERVICE_DIRECTORY_SERVICE_STATION",
-            joinColumns = @JoinColumn(name = "SERVICE_STATION_ID"),
-            inverseJoinColumns = @JoinColumn(name = "SERVICE_DIRECTORY_ID"))
+    @ManyToMany(mappedBy = "serviceStations",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("serviceStations")
     private List<ServiceDirectory> serviceDirectories;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ADDRESS_ID")
+    @JoinColumn(name = "ADDRESS_ID", insertable = false, updatable = false)
+    @JsonIgnoreProperties("serviceStation")
     private Address address;
 
     @Override
@@ -55,5 +54,7 @@ public class ServiceStation {
         return stringBuilder.toString();
 
     }
-
+     public ServiceStation(String name){
+        this.serviceStationName=name;
+     }
 }
