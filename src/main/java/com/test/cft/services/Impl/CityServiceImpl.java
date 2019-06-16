@@ -41,7 +41,7 @@ public class CityServiceImpl implements CityService {
             return false;
         }
 
-        repository.deleteById( id );
+        repository.deleteCityById( id );
 
         log.info( "Delete " + cityFromDB.get().toString() + " " + LocalDate.now() );
 
@@ -54,7 +54,7 @@ public class CityServiceImpl implements CityService {
         if (cityFromDB == null) {
             return false;
         }
-        repository.saveAndFlush( city );
+        repository.updateCity(city.getId(),city.getCityName(),city.getCountry() );
         log.info( "Edit  old version = " + cityFromDB.get().toString() + ", new version =" + city.toString() + " " + LocalDate.now() );
         return true;
     }

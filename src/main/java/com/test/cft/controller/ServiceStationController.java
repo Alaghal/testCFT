@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+
 @RestController
+@RequestMapping("/serviceStations")
 public class ServiceStationController {
     private  final ServiceStationService service;
 
@@ -18,22 +20,22 @@ public class ServiceStationController {
         this.service=service;
     }
 
-    @GetMapping("/serviceStations")
+    @GetMapping()
     public List getServiceStations(){
-         return service.getAllServiceStations();
+        return service.getAllServiceStations();
     }
 
-    @GetMapping("/serviceStations/{id}")
-    public ServiceStation getServiceStationById(@PathVariable(value = "id") Long serviceDirectoryId) throws ServiceStationNotFoundExeption {
-        return service.getServiceStationById(serviceDirectoryId);
+    @GetMapping("/id")
+    public ServiceStation getServiceStationById(@RequestParam(value = "id", required = true) String id) {
+        return service.getServiceStationById(Long.parseLong(id));
     }
 
-    @GetMapping("/serviceStations/{name}")
-    public ServiceStation getServiceStationByName(@PathVariable(value = "name") String serviceDirectoryName){
+    @GetMapping("/name")
+    public ServiceStation getServiceStationByName(@RequestParam(value = "name", required = true) String serviceDirectoryName){
         return  service.getServiceStationByName(serviceDirectoryName);
     }
 
-    @PostMapping("/serviceStations")
+    @PostMapping()
     public  ServiceStation  createServiceStation(@Valid @RequestBody ServiceStation serviceStation){
         if (service.addServiceStation( serviceStation )){
             return  serviceStation;
@@ -41,9 +43,9 @@ public class ServiceStationController {
         return new ServiceStation(  );
     }
 
-    @PutMapping("/serviceStation/{id}")
-    public ServiceStation updateServiceStation(@PathVariable(value = "id") Long serviceStationId,
-                                               @Valid @RequestBody ServiceStation serviceStationDetails) throws  ServiceStationNotFoundExeption{
+    @PutMapping("/id")
+    public ServiceStation updateServiceStation(@RequestParam(value = "id", required = true)  Long serviceStationId,
+                                               @Valid @RequestBody ServiceStation serviceStationDetails) {
         ServiceStation serviceStation = service.getServiceStationById( serviceStationId );
 
         serviceStation.setServiceStationName( serviceStationDetails.getServiceStationName());
@@ -55,9 +57,9 @@ public class ServiceStationController {
         return  new ServiceStation();
     }
 
-    @DeleteMapping("/serviceStation/{id}")
-    public ResponseEntity deleteServiceStation(@PathVariable(value = "id") Long serviceStationId) throws  ServiceStationNotFoundExeption{
-        if (service.deleteServiceStation( serviceStationId ))
+    @DeleteMapping("/id")
+    public ResponseEntity deleteServiceStation(@RequestParam(value = "id", required = true) Long id) {
+        if (service.deleteServiceStation(id ))
             return ResponseEntity.ok(  ).build();
         return ResponseEntity.badRequest().build();
     }

@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/serviceDirectories")
 public class ServiceDirectoryController {
     private  final ServiceDirectoryService service;
 
@@ -17,22 +18,22 @@ public class ServiceDirectoryController {
         this.service=service;
     }
 
-    @GetMapping("/serviceDirectories")
+    @GetMapping()
     public List getServiceDirectories(){
         return service.getAllServiceDirectories();
     }
 
-    @GetMapping("/serviceDirectories/{id}")
-    public ServiceDirectory getServiceDirectoryById(@PathVariable(value = "id") Long serviceDirectoryId) throws ServiceDirectoryNotFoundExeption {
-        return service.getServiceDirectoryById( serviceDirectoryId );
+    @GetMapping("/id")
+    public ServiceDirectory getServiceDirectoryById(@RequestParam(value = "id", required = true) Long id)  {
+        return service.getServiceDirectoryById( id );
     }
 
-    @GetMapping("/serviceDirectories/{name}")
-    public ServiceDirectory getServiceDirectoryByName(@PathVariable(value = "name") String serviceDirectoryName){
+    @GetMapping("/name")
+    public ServiceDirectory getServiceDirectoryByName(@RequestParam(value = "name", required = true)  String serviceDirectoryName){
        return service.getServiceDirectoryByName( serviceDirectoryName );
     }
 
-    @PostMapping("/serviceDirectories")
+    @PostMapping()
     public  ServiceDirectory createServiceDirectory(@Valid @RequestBody ServiceDirectory serviceDirectory){
         if (service.addServiceDirectory( serviceDirectory )){
             return  serviceDirectory;
@@ -40,10 +41,10 @@ public class ServiceDirectoryController {
         return new ServiceDirectory(  );
     }
 
-    @PutMapping("/serviceDirectories/{id}")
-    public ServiceDirectory updateServiceDirectory(@PathVariable(value = "id") Long serviceDirectoryId,
-                                 @Valid @RequestBody ServiceDirectory serviceDirectoryDetails) throws  ServiceDirectoryNotFoundExeption{
-        ServiceDirectory serviceDirectory = service.getServiceDirectoryById( serviceDirectoryId );
+    @PutMapping("/id")
+    public ServiceDirectory updateServiceDirectory(@RequestParam(value = "id", required = true) Long id,
+                                 @Valid @RequestBody ServiceDirectory serviceDirectoryDetails) {
+        ServiceDirectory serviceDirectory = service.getServiceDirectoryById( id );
 
         serviceDirectory.setServiceDirectoryName( serviceDirectoryDetails.getServiceDirectoryName());
         serviceDirectory.setServiceStations( serviceDirectoryDetails.getServiceStations());
@@ -53,9 +54,9 @@ public class ServiceDirectoryController {
         return  new ServiceDirectory();
     }
 
-    @DeleteMapping("/serviceDirectories/{id}")
-    public ResponseEntity deleteCountry(@PathVariable(value = "id") Long serviceDirectoryId) throws ServiceDirectoryNotFoundExeption{
-        if (service.deleteServiceDirectory( serviceDirectoryId ))
+    @DeleteMapping("/id")
+    public ResponseEntity deleteCountry(@RequestParam(value = "id", required = true) Long id) {
+        if (service.deleteServiceDirectory( id ))
             return ResponseEntity.ok(  ).build();
         return ResponseEntity.badRequest().build();
     }

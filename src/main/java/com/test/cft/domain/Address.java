@@ -1,10 +1,8 @@
 package com.test.cft.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +11,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"city", "serviceStation"})
 @Table(name = "ADDRESS")
 public class Address {
     @Id
@@ -23,14 +22,15 @@ public class Address {
     @Column(name = "ADDRESS_NAME")
     private String addressName;
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "CITY_ID")
+    @JoinColumn(name = "CITY_ID", insertable = false, updatable = false)
+    @JsonIgnoreProperties("addresses")
     private City city;
 
-    @JsonIgnore
+
     @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-     private  ServiceStation serviceStation;
+    @JsonIgnoreProperties("address")
+    private  ServiceStation serviceStation;
 
     @Override
     public String toString(){
