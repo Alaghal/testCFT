@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/addresses")
 public class AddressController {
     private final AddressService service;
 
@@ -17,46 +18,45 @@ public class AddressController {
         this.service=service;
     }
 
-    @GetMapping("/addresses")
+    @GetMapping()
     public List getAddresses(){
         return service.getAllAddresses();
     }
 
-    @GetMapping("/address/{id}")
-    public Address getAddressById(@PathVariable(value = "id") Long addressId) throws AddressNotFoundExeption {
-        return service.getAddressById( addressId );
+    @GetMapping("/id")
+    public Address getAddressById(@RequestParam(value = "id", required = true) Long id)  {
+        return service.getAddressById(id );
     }
 
-    @GetMapping("/address/{name}")
-    public Address getAddressByName(@PathVariable(value = "name") String name){
+    @GetMapping("/name")
+    public Address getAddressByName(@RequestParam(value = "name",required = true ) String name){
         return  service.getAddressByName( name );
     }
 
-    @PostMapping("/address")
+    @PostMapping()
     public  Address createAddress(@Valid @RequestBody Address address){
         if (service.addAddress( address ))
             return address;
         return new Address();
     }
 
-    @PutMapping("/address/{id}")
-    public  Address updateAddress(@PathVariable(value = "id") Long addressId,
-                                  @Valid @RequestBody Address addressDetails) throws  AddressNotFoundExeption{
-        Address address = service.getAddressById( addressId );
+    @PutMapping("/id")
+    public  Address updateAddress(@RequestParam(value = "id", required = true) Long id,
+                                  @Valid @RequestBody Address addressDetails) {
+        Address address = service.getAddressById(id);
 
-        address.setAddressName( address.getAddressName());
-        address.setServiceStation( addressDetails.getServiceStation());
+        address.setAddressName( addressDetails.getAddressName());
+
         address.setCity( addressDetails.getCity() );
-
 
         if (service.editAddress( address ))
             return address;
         return  new Address();
     }
 
-    @DeleteMapping ("/address/{id}")
-    public ResponseEntity deleteAddress(@PathVariable(value = "id") Long addressId) throws  AddressNotFoundExeption{
-        if (service.deleteAddress( addressId ))
+    @DeleteMapping ("/id")
+    public ResponseEntity deleteAddress(@RequestParam(value = "id", required = true) Long id) {
+        if (service.deleteAddress(id))
             return ResponseEntity.ok(  ).build();
         return ResponseEntity.badRequest().build();
     }

@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/cities")
 public class CityController {
      private  final CityService service;
 
@@ -18,32 +19,32 @@ public class CityController {
          this.service = service;
      }
 
-    @GetMapping("/cities")
+    @GetMapping()
     public List getAllCities() {
         return service.getAllCities();
     }
 
-    @GetMapping("/cities/{id}")
-    public City getCityById(@PathVariable(value = "id") Long cityId) throws CityNotFoundExeption {
-        return service.getCityById(cityId);
+    @GetMapping("/id")
+    public City getCityById(@RequestParam(value = "id", required = true) Long id) throws CityNotFoundExeption {
+        return service.getCityById(id);
     }
 
-    @GetMapping("/cities/{name}")
-    public  City getCityByName(@PathVariable(value = "name") String cityName ){
-         return service.getCityByName( cityName );
+    @GetMapping("/name")
+    public  City getCityByName(@RequestParam(value = "name",required = true ) String name ){
+         return service.getCityByName( name );
     }
 
-    @PostMapping("/cities")
+    @PostMapping()
     public City createCity(@Valid @RequestBody City city){
           if (service.addCity( city ))
               return city;
          return new City();
     }
 
-    @PutMapping("/cities/{id}")
-    public City updateCity(@PathVariable(value = "id") Long cityId,
+    @PutMapping("/id")
+    public City updateCity(@RequestParam(value = "id", required = true) Long id,
                            @Valid @RequestBody City cityDetails) throws  CityNotFoundExeption{
-      City city = service.getCityById( cityId );
+      City city = service.getCityById( id );
 
       city.setCityName( cityDetails.getCityName());
       city.setAddresses( cityDetails.getAddresses());
@@ -54,9 +55,9 @@ public class CityController {
       return  new City();
      }
 
-     @DeleteMapping("/cities/{id}")
-     public ResponseEntity deleteCity(@PathVariable(value = "id") Long cityId) throws  CityNotFoundExeption{
-             if (service.deleteCity( cityId ))
+     @DeleteMapping("/id")
+     public ResponseEntity deleteCity(@RequestParam(value = "id", required = true) Long id) throws  CityNotFoundExeption{
+             if (service.deleteCity( id ))
                  return ResponseEntity.ok(  ).build();
              return ResponseEntity.badRequest().build();
      }
