@@ -40,7 +40,7 @@ public class AddressServiceImpl implements AddressService {
             return false;
         }
 
-        repository.deleteById( id );
+        repository.deleteAddressById(addressFromDB.get().getId());
 
         log.info( "Delete " + addressFromDB.get().toString() + " " + LocalDate.now() );
 
@@ -53,7 +53,7 @@ public class AddressServiceImpl implements AddressService {
         if (addressFromDB == null) {
             return false;
         }
-        repository.saveAndFlush( address );
+        repository.updateAddress( address.getId(),address.getAddressName(),address.getCity());
         log.info( "Edit  old version = " + addressFromDB.get().toString() + ", new version =" + address.toString() + " " + LocalDate.now() );
         return true;
     }

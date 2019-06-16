@@ -41,7 +41,7 @@ public class ServiceStationServiceImpl implements ServiceStationService {
             return false;
         }
 
-        repository.deleteById( id );
+        repository.deleteServiceStationById( id );
 
         log.info( "Delete " + serviceStationFromDB.get().toString() + " " + LocalDate.now() );
 
