@@ -14,7 +14,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"serviceDirectories","address"})
+@EqualsAndHashCode(exclude = {"serviceDirectories","addresses"})
 @Table(name = "SERVICE_STATION")
 public class ServiceStation {
     @Id
@@ -29,10 +29,10 @@ public class ServiceStation {
     @JsonIgnoreProperties("serviceStations")
     private List<ServiceDirectory> serviceDirectories;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ADDRESS_ID", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ADDRESS_ID")
     @JsonIgnoreProperties("serviceStation")
-    private Address address;
+    private Address addresses;
 
     @Override
     public String toString() {

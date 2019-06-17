@@ -25,7 +25,7 @@ public class Country {
     private String countryName;
 
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("country")
     List<City> cityList;
 

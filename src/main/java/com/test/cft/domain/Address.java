@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,15 +23,14 @@ public class Address {
     @Column(name = "ADDRESS_NAME")
     private String addressName;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "CITY_ID", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CITY_ID")
     @JsonIgnoreProperties("addresses")
     private City city;
 
-
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("address")
-    private  ServiceStation serviceStation;
+    @OneToMany(mappedBy = "addresses", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("addresses")
+    private List<ServiceStation> serviceStation;
 
     @Override
     public String toString(){
