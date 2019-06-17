@@ -17,24 +17,4 @@ public interface ServiceStationRepository extends JpaRepository<ServiceStation, 
     @Query("select b from ServiceStation b where b.serviceStationName = :name")
     ServiceStation findByName(@Param("name") String name);
 
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query("update ServiceStation b set  b.serviceStationName =:name, b.address =:address  where b.id = :id")
-    void updateServiceStation(@Param( "id" ) Long id,
-                              @Param( "name" ) String name,
-                              @Param( "address" )Address address);
-
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query("update ServiceStation b set  b.serviceStationName =:name, b.address =:address  where b.id = :id")
-    void updateServiceStationServiceDirectory (@Param( "id" ) Long id,
-                                               @Param( "name" ) String name,
-                                               @Param( "address" )Address address);
-
-
-
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query("delete from ServiceStation b where b.id = :id")
-    void deleteServiceStationById(@Param( "id" ) Long id);
 }

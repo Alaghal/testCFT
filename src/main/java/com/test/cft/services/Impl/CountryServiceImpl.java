@@ -41,7 +41,7 @@ public class CountryServiceImpl  implements CountryService {
             return false;
         }
 
-        repository.deleteCountryById( id );
+        repository.deleteById( id );
 
         log.info( "Delete " + countryFromDB.get().toString() + " " + LocalDate.now() );
 
@@ -54,7 +54,8 @@ public class CountryServiceImpl  implements CountryService {
         if (countryFromDB == null) {
             return false;
         }
-        repository.updateCountry( country.getId(),country.getCountryName() );
+         // repository.updateCountry( country.getId(),country.getCountryName() );
+        repository.saveAndFlush( country );
         log.info( "Edit  old version = " + countryFromDB.get().toString() + ", new version =" + country.toString() + " " + LocalDate.now() );
         return true;
     }

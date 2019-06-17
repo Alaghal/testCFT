@@ -25,11 +25,11 @@ public class City {
     private String cityName;
 
 
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "city", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("city")
     private List<Address> addresses ;
 
-    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne ( fetch = FetchType.EAGER)
     @JoinColumn(name = "COUNTRY_ID")
     @JsonIgnoreProperties("cityList")
     private Country country;

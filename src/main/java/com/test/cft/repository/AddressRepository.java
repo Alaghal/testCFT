@@ -13,16 +13,4 @@ public interface AddressRepository extends JpaRepository<Address,Long> {
     @Query("select b from Address b where b.addressName = :name")
     Address findByName(@Param("name") String name);
 
-
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query("update Address b set  b.addressName=:name, b.city =:city  where b.id = :id")
-    void updateAddress(@Param( "id" ) Long id,
-                       @Param( "name" ) String name,
-                       @Param( "city" ) City city);
-
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query("delete from Address b where b.id = :id")
-    void deleteAddressById(@Param( "id" ) Long id);
 }

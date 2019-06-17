@@ -41,7 +41,7 @@ public class ServiceDirectoryServiceImpl implements ServiceDirectoryService {
             return false;
         }
 
-        repository.deleteServiceDirectoryById( id );
+        repository.deleteById( id );
 
         log.info( "Delete " + serviceDirectoryFromDB.get().toString() + " " + LocalDate.now() );
 
@@ -54,7 +54,7 @@ public class ServiceDirectoryServiceImpl implements ServiceDirectoryService {
         if (serviceDirectoryFromDB == null) {
             return false;
         }
-     //  // repository.updateServiceDirectory( serviceDirectory.getId(),serviceDirectory.getServiceDirectoryName() );
+
         repository.saveAndFlush( serviceDirectory );
         log.info( "Edit  old version = " + serviceDirectoryFromDB.get().toString() + ", new version =" + serviceDirectory.toString() + " " + LocalDate.now() );
         return true;

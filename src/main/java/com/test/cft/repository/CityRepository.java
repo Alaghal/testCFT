@@ -12,15 +12,6 @@ public interface CityRepository extends JpaRepository<City,Long> {
     @Query("select b from City b where b.cityName =:name")
     City findByName(@Param("name") String name);
 
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query("update City b set  b.cityName=:name, b.country =:country  where b.id = :id")
-    void updateCity(@Param( "id" ) Long id,
-                    @Param( "name" ) String name,
-                    @Param( "country" ) Country country);
 
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query("delete from City b where b.id =:id")
-    void deleteCityById(@Param( "id" ) Long id);
+
 }
