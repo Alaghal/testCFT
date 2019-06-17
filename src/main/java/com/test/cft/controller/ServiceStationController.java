@@ -49,7 +49,7 @@ public class ServiceStationController {
         ServiceStation serviceStation = service.getServiceStationById( serviceStationId );
 
         serviceStation.setServiceStationName( serviceStationDetails.getServiceStationName());
-        serviceStation.setAddress( serviceStationDetails.getAddress());
+        serviceStation.setAddresses( serviceStationDetails.getAddresses());
         serviceStation.setServiceDirectories( serviceStationDetails.getServiceDirectories() );
 
         if (service.editServiceStation( serviceStation ))
